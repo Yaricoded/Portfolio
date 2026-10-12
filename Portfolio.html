@@ -1,0 +1,637 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Yaricoded Portfolio</title>
+<meta name="description" content="Finance, quant models and tech from the Yariverse: notebooks, dashboards, IoT and apps.">
+<script>document.documentElement.dataset.look='glass'</script>
+<style>
+/* =========================================================
+   THEMES  — switch with the dock at the bottom of the page
+   (or open the file with #glass, #particles or #liquid)
+   ========================================================= */
+:root{
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+html[data-look=glass]{
+  --bg:#0a0e1f; --ink:#eef1ff; --muted:rgba(238,241,255,.7);
+  --card:rgba(255,255,255,.08); --line:rgba(255,255,255,.2);
+  --blur:24px; --a:#8ab4ff; --b:#c79bff; --c:#ff9ecf; --r:24px;
+}
+html[data-look=particles]{
+  --bg:#03060c; --ink:#e9fbff; --muted:rgba(233,251,255,.66);
+  --card:rgba(10,22,32,.5); --line:rgba(56,242,208,.24);
+  --blur:10px; --a:#38f2d0; --b:#7c5cff; --c:#4aa8ff; --r:14px;
+}
+html[data-look=liquid]{
+  --bg:#14051f; --ink:#fff3fa; --muted:rgba(255,243,250,.72);
+  --card:rgba(255,255,255,.1); --line:rgba(255,255,255,.28);
+  --blur:20px; --a:#ff7ac6; --b:#ffb86b; --c:#9b7bff; --r:32px;
+}
+
+:root{color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font); color:var(--ink); background:var(--bg);
+  min-height:100vh; line-height:1.55; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden; transition:background .7s, color .4s;
+}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--a); outline-offset:3px; border-radius:8px}
+
+/* ---------- background layers ---------- */
+.bg{position:fixed; inset:0; z-index:-1; overflow:hidden}
+.aurora,#net,.liquid{
+  position:absolute; inset:0; pointer-events:none;
+  opacity:0; visibility:hidden; transition:opacity .8s, visibility 0s .8s;
+}
+html[data-look=glass] .aurora,
+html[data-look=particles] #net,
+html[data-look=liquid] .liquid{opacity:1; visibility:visible; transition:opacity .8s}
+
+.aurora i{position:absolute; border-radius:50%; filter:blur(70px); opacity:.8; animation:drift 22s ease-in-out infinite alternate}
+.aurora i:nth-child(1){width:46vmax;height:46vmax;left:-12vmax;top:-14vmax;background:radial-gradient(circle,#4f6bff,transparent 65%)}
+.aurora i:nth-child(2){width:40vmax;height:40vmax;right:-10vmax;top:8%;background:radial-gradient(circle,#b266ff,transparent 65%);animation-duration:27s;animation-delay:-6s}
+.aurora i:nth-child(3){width:44vmax;height:44vmax;left:20%;bottom:-20vmax;background:radial-gradient(circle,#ff7ab8,transparent 65%);animation-duration:31s;animation-delay:-12s}
+.aurora i:nth-child(4){width:30vmax;height:30vmax;left:55%;top:40%;background:radial-gradient(circle,#27d3c8,transparent 65%);opacity:.5;animation-duration:25s;animation-delay:-3s}
+@keyframes drift{to{transform:translate3d(8vmax,6vmax,0) scale(1.18)}}
+
+html[data-look=particles] .bg::before{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(60vmax 40vmax at 15% 0%, rgba(56,242,208,.10), transparent 60%),
+    radial-gradient(50vmax 40vmax at 90% 100%, rgba(124,92,255,.14), transparent 60%);
+}
+
+.liquid{filter:url(#goo)}
+.liquid b{position:absolute; left:0; top:0; border-radius:50%; will-change:transform}
+.liquid b:nth-child(1){width:34vmin;height:34vmin;background:#ff4fb0}
+.liquid b:nth-child(2){width:28vmin;height:28vmin;background:#ff9a5a}
+.liquid b:nth-child(3){width:38vmin;height:38vmin;background:#8a5bff}
+.liquid b:nth-child(4){width:24vmin;height:24vmin;background:#ff6f91}
+.liquid b:nth-child(5){width:30vmin;height:30vmin;background:#5b7bff}
+.liquid b:nth-child(6){width:18vmin;height:18vmin;background:#ffd0ec}  /* follows the cursor */
+
+/* ---------- layout ---------- */
+.wrap{width:min(1180px, 100% - 40px); margin-inline:auto}
+header.top{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:20; padding:14px 0;
+}
+header.top .wrap{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:10px 18px; border-radius:999px;
+  background:var(--card); border:1px solid var(--line);
+  backdrop-filter:blur(var(--blur)) saturate(160%); -webkit-backdrop-filter:blur(var(--blur)) saturate(160%);
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.02em; text-decoration:none}
+.brand .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 0 14px var(--a)}
+header nav{display:flex; gap:6px}
+header nav a{padding:6px 14px; border-radius:999px; text-decoration:none; font-size:.92rem; color:var(--muted); transition:.25s}
+header nav a:hover{color:var(--ink); background:rgba(255,255,255,.1)}
+
+.hero{display:grid; grid-template-columns:1.4fr .8fr; gap:40px; align-items:center; padding:clamp(48px,10vh,110px) 0 clamp(40px,7vh,80px)}
+.eyebrow{font-family:var(--mono); font-size:.8rem; letter-spacing:.22em; text-transform:uppercase; color:var(--a)}
+h1{
+  font-size:clamp(2.8rem, 8vw, 6rem); line-height:1; letter-spacing:-.035em; margin:14px 0 18px; font-weight:800;
+  background:linear-gradient(120deg,var(--ink) 20%,var(--a) 60%,var(--b));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.lede{font-size:clamp(1.05rem,2vw,1.28rem); color:var(--muted); max-width:34em}
+.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:28px}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:999px;
+  text-decoration:none; font-weight:600; font-size:.95rem; border:1px solid var(--line);
+  background:var(--card); backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur));
+  transition:transform .25s, box-shadow .25s, background .25s;
+}
+.btn:hover{transform:translateY(-2px); background:rgba(255,255,255,.14)}
+.btn.primary{background:linear-gradient(120deg,var(--a),var(--b)); color:#0b0b17; border-color:transparent; box-shadow:0 10px 30px -10px var(--a)}
+.btn.primary:hover{box-shadow:0 14px 40px -8px var(--a); background:linear-gradient(120deg,var(--a),var(--b))}
+
+.orb-wrap{display:grid; place-items:center}
+.orb{
+  position:relative; width:clamp(170px,26vw,300px); aspect-ratio:1; display:grid; place-items:center;
+  font-size:clamp(4rem,9vw,7rem); font-weight:800; color:rgba(255,255,255,.92);
+  background:conic-gradient(from 0deg,var(--a),var(--b),var(--c),var(--a));
+  border-radius:50%;
+  box-shadow:inset 0 0 50px rgba(255,255,255,.35), 0 30px 80px -20px var(--b);
+  animation:spin 14s linear infinite;
+}
+.orb span{animation:spin 14s linear infinite reverse; text-shadow:0 4px 30px rgba(0,0,0,.35)}
+@keyframes spin{to{transform:rotate(360deg)}}
+html[data-look=glass] .orb{
+  background:conic-gradient(from 0deg,rgba(138,180,255,.55),rgba(199,155,255,.55),rgba(255,158,207,.55),rgba(138,180,255,.55));
+  border:1px solid rgba(255,255,255,.35); backdrop-filter:blur(8px);
+}
+html[data-look=particles] .orb{
+  background:radial-gradient(circle at 30% 30%, rgba(56,242,208,.35), transparent 62%);
+  border:1px solid var(--line); box-shadow:0 0 60px rgba(56,242,208,.3), inset 0 0 40px rgba(56,242,208,.2);
+  animation:none;
+}
+html[data-look=particles] .orb span{animation:none; color:var(--a); text-shadow:0 0 24px var(--a)}
+html[data-look=liquid] .orb{
+  animation:morph 9s ease-in-out infinite, spin 30s linear infinite;
+  background:linear-gradient(135deg,var(--a),var(--b) 55%,var(--c));
+  border-radius:60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+html[data-look=liquid] .orb span{animation:spin 30s linear infinite reverse}
+@keyframes morph{
+  0%,100%{border-radius:60% 40% 30% 70% / 60% 30% 70% 40%}
+  25%{border-radius:30% 60% 70% 40% / 50% 60% 30% 60%}
+  50%{border-radius:50% 60% 30% 60% / 30% 60% 70% 40%}
+  75%{border-radius:60% 40% 60% 30% / 70% 30% 50% 60%}
+}
+
+.stats{display:flex; flex-wrap:wrap; gap:14px; margin-top:34px}
+.stat{padding:14px 20px; border-radius:calc(var(--r) - 6px); background:var(--card); border:1px solid var(--line); backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur))}
+.stat strong{display:block; font-size:1.7rem; line-height:1.1}
+.stat small{color:var(--muted); font-size:.82rem}
+
+section{padding:clamp(40px,7vh,72px) 0}
+.sec-head{display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:18px; margin-bottom:26px}
+h2{font-size:clamp(1.8rem,4vw,2.7rem); letter-spacing:-.02em; line-height:1.1}
+.sec-head p{color:var(--muted); max-width:30em}
+
+.filters{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px}
+.chip{
+  font:inherit; font-size:.9rem; cursor:pointer; color:var(--muted);
+  padding:8px 16px; border-radius:999px; border:1px solid var(--line); background:var(--card);
+  backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur)); transition:.25s;
+}
+.chip:hover{color:var(--ink)}
+.chip[aria-pressed=true]{color:#0b0b17; background:linear-gradient(120deg,var(--a),var(--b)); border-color:transparent; font-weight:600}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:20px}
+.card{
+  position:relative; padding:24px; border-radius:var(--r); overflow:hidden;
+  display:flex; flex-direction:column; gap:12px;
+  background:var(--card); border:1px solid var(--line);
+  backdrop-filter:blur(var(--blur)) saturate(165%); -webkit-backdrop-filter:blur(var(--blur)) saturate(165%);
+  box-shadow:0 12px 40px -14px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.22);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1), border-radius .7s ease, border-color .3s, box-shadow .3s;
+}
+.card[hidden]{display:none}
+.card::before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s;
+  background:radial-gradient(380px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,.17), transparent 45%);
+}
+.card:hover{transform:translateY(-6px); border-color:var(--a)}
+.card:hover::before{opacity:1}
+html[data-look=particles] .card:hover{box-shadow:0 0 0 1px var(--a), 0 18px 50px -14px rgba(56,242,208,.35)}
+html[data-look=liquid] .card:hover{border-radius:60px 24px 60px 24px / 34px 60px 34px 60px}
+.card .idx{font-family:var(--mono); font-size:.75rem; letter-spacing:.2em; color:var(--a)}
+.card h3{font-size:1.25rem; line-height:1.25; letter-spacing:-.01em}
+.card p{color:var(--muted); font-size:.95rem; flex:1}
+.tags{display:flex; flex-wrap:wrap; gap:6px}
+.tag{font-family:var(--mono); font-size:.72rem; padding:3px 10px; border-radius:999px; background:rgba(255,255,255,.09); color:var(--muted)}
+.files{display:flex; flex-wrap:wrap; gap:8px; padding-top:6px; border-top:1px solid var(--line)}
+.files a{
+  font-size:.82rem; padding:5px 12px; border-radius:999px; text-decoration:none;
+  border:1px solid var(--line); transition:.2s;
+}
+.files a:hover{background:linear-gradient(120deg,var(--a),var(--b)); color:#0b0b17; border-color:transparent}
+
+.repos{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px}
+.repo{padding:28px}
+.repo h3{font-size:1.4rem}
+.repo .when{font-family:var(--mono); font-size:.78rem; color:var(--a); letter-spacing:.14em; text-transform:uppercase}
+.kit{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
+.kit .tag{font-size:.82rem; padding:6px 14px}
+
+/* ---------- dashboards ---------- */
+.dashes{display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:22px}
+.dash{padding:20px; gap:14px}
+.dash .kind{align-self:flex-start; font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; padding:3px 10px; border-radius:999px; background:linear-gradient(120deg,var(--a),var(--b)); color:#0b0b17; font-weight:700}
+.dash h3{font-size:1.3rem}
+.stage{
+  position:relative; aspect-ratio:16/10; border-radius:calc(var(--r) - 10px); overflow:hidden;
+  border:1px solid var(--line); background:rgba(0,0,0,.35); display:grid; place-items:center; text-align:center;
+}
+.stage iframe{position:absolute; inset:0; width:100%; height:100%; border:0; background:#fff}
+.stage .ph{padding:20px; display:grid; gap:12px; justify-items:center; max-width:30em}
+.stage .ph small{color:var(--muted)}
+.stage ul{list-style:none; display:flex; flex-wrap:wrap; gap:6px; justify-content:center}
+.stage ul li{font-size:.76rem; padding:3px 10px; border-radius:999px; background:rgba(255,255,255,.1); color:var(--muted)}
+.dash .btn{cursor:pointer; font:inherit; font-weight:600; font-size:.9rem; padding:9px 18px; color:inherit}
+.dash .note{font-size:.8rem; color:var(--muted)}
+@media (max-width:520px){ .dashes{grid-template-columns:1fr} }
+
+footer{padding:40px 0 120px; color:var(--muted); font-size:.9rem}
+footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; padding-top:22px; border-top:1px solid var(--line)}
+
+/* ---------- theme dock ---------- */
+.dock{
+  position:fixed; left:50%; bottom:calc(18px + env(safe-area-inset-bottom,0px)); translate:-50% 0; z-index:30;
+  display:flex; gap:4px; padding:6px; border-radius:999px;
+  background:rgba(20,20,30,.45); border:1px solid rgba(255,255,255,.22);
+  backdrop-filter:blur(24px) saturate(180%); -webkit-backdrop-filter:blur(24px) saturate(180%);
+  box-shadow:0 18px 50px -12px rgba(0,0,0,.6);
+}
+.dock button{
+  font:inherit; font-size:.88rem; cursor:pointer; color:rgba(255,255,255,.75);
+  display:flex; align-items:center; gap:8px; padding:9px 16px; border-radius:999px; border:0; background:transparent; transition:.25s;
+}
+.dock button i{width:10px;height:10px;border-radius:50%}
+.dock button:nth-child(1) i{background:linear-gradient(135deg,#8ab4ff,#c79bff)}
+.dock button:nth-child(2) i{background:linear-gradient(135deg,#38f2d0,#7c5cff)}
+.dock button:nth-child(3) i{background:linear-gradient(135deg,#ff7ac6,#ffb86b)}
+.dock button:hover{color:#fff}
+.dock button[aria-pressed=true]{background:rgba(255,255,255,.2); color:#fff; font-weight:600}
+
+/* ---------- reveal ---------- */
+html.js .rv{opacity:0; translate:0 22px; transition:opacity .7s ease, translate .7s cubic-bezier(.2,.8,.2,1)}
+html.js .rv.in{opacity:1; translate:0 0}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr; text-align:left}
+  .orb-wrap{order:-1; justify-content:start}
+  .orb{width:150px; font-size:3.6rem}
+  header nav a:not(:last-child){display:none}
+  .dock button{padding:9px 12px; font-size:.82rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important; transition-duration:.01ms !important; scroll-behavior:auto !important}
+  html.js .rv{opacity:1; translate:0 0}
+}
+</style>
+<!-- gooey filter used by the Liquid theme -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="goo" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -11"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="bg" aria-hidden="true">
+  <div class="aurora"><i></i><i></i><i></i><i></i></div>
+  <canvas id="net"></canvas>
+  <div class="liquid"><b></b><b></b><b></b><b></b><b></b><b></b></div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot"></span>Yaricoded</a>
+    <nav aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#dashboards">Dashboards</a>
+      <a href="#repos">Repos</a>
+      <a href="https://github.com/Yaricoded" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <p class="eyebrow rv">The Yariverse</p>
+        <h1 class="rv">Yaricoded</h1>
+        <p class="lede rv">Finance, quant models and tech: from financial-statement and risk models to dashboards, IoT sensors and behavior-decoding machine learning.</p>
+        <div class="cta rv">
+          <a class="btn primary" href="#work">Explore the work</a>
+          <a class="btn" href="https://github.com/Yaricoded" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <div class="stats rv">
+          <div class="stat"><strong>17</strong><small>projects</small></div>
+          <div class="stat"><strong>2</strong><small>code repos</small></div>
+          <div class="stat"><strong>87</strong><small>commits</small></div>
+          <div class="stat"><strong>Python · Swift · JSX · HTML</strong><small>languages</small></div>
+        </div>
+      </div>
+      <div class="orb-wrap rv" aria-hidden="true"><div class="orb"><span>Y</span></div></div>
+    </section>
+
+    <section id="work">
+      <div class="sec-head rv">
+        <div>
+          <h2>Selected work</h2>
+        </div>
+        <p>Everything here lives in the blog-code repos. Each file chip opens the source on GitHub.</p>
+      </div>
+      <div class="filters rv" id="filters" role="group" aria-label="Filter projects"></div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section id="dashboards">
+      <div class="sec-head rv">
+        <h2>Dashboards &amp; HTML pages</h2>
+        <p>Every dashboard and HTML file in the Forward repo, 8 in all. Each one opens live in its own tab, with the source one click away.</p>
+      </div>
+      <div class="dashes" id="dashes"></div>
+    </section>
+
+    <section id="repos">
+      <div class="sec-head rv">
+        <h2>The two repos</h2>
+        <p>Blog code was split at 3/05/26: everything before lives in Pior, everything after lives in Forward.</p>
+      </div>
+      <div class="repos">
+        <article class="card repo rv">
+          <span class="when">Up to 3/05/26</span>
+          <h3>Pior_03-05-2026_Blog_Code</h3>
+          <p>The earlier archive: quant-level finance and tech notebooks used in the Yariverse, including financial-statement models, risk models and behavior ML.</p>
+          <div class="files"><a href="https://github.com/Yaricoded/Pior_03-05-2026_Blog_Code" target="_blank" rel="noopener">Open repo ↗</a></div>
+        </article>
+        <article class="card repo rv">
+          <span class="when">From 3/05/26</span>
+          <h3>Foward_03-05-2026_Blog_Code</h3>
+          <p>The new home for blog code: notebooks, Python scripts, HTML dashboards, a Swift widget, Excel models and IoT recorder code.</p>
+          <div class="files"><a href="https://github.com/Yaricoded/Foward_03-05-2026_Blog_Code" target="_blank" rel="noopener">Open repo ↗</a></div>
+        </article>
+      </div>
+      <div class="kit rv" aria-label="Toolkit">
+        <span class="tag">Python</span><span class="tag">Jupyter</span><span class="tag">Swift</span><span class="tag">React / JSX</span>
+        <span class="tag">HTML dashboards</span><span class="tag">Excel models</span><span class="tag">UIFlow IoT</span><span class="tag">Agent observability</span>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Yaricoded · built from the Yariverse blog code</span>
+    <span>Pick a look with the dock below ↓</span>
+  </div>
+</footer>
+
+<div class="dock" role="group" aria-label="Choose a visual theme">
+  <button type="button" data-theme-btn="glass" aria-pressed="true"><i></i>Glass</button>
+  <button type="button" data-theme-btn="particles" aria-pressed="false"><i></i>Particles</button>
+  <button type="button" data-theme-btn="liquid" aria-pressed="false"><i></i>Liquid morph</button>
+</div>
+
+<script>
+/* ===== project data ===== */
+const REPO = {
+  p: "https://github.com/Yaricoded/Pior_03-05-2026_Blog_Code/blob/main/",
+  f: "https://github.com/Yaricoded/Foward_03-05-2026_Blog_Code/blob/main/"
+};
+const CATS = {all:"All", fin:"Finance", quant:"Quant", ml:"ML & Data", app:"Apps & Dashboards", iot:"IoT", agents:"Agents"};
+
+const PROJECTS = [
+  {t:"AI Bubble Code Detector", c:["quant","ml"], d:"Notebook exploring whether signals in the AI sector look like a bubble.", tags:["Python","Jupyter"],
+    f:[["p","AI Bubble Code Detector.ipynb","Notebook"]]},
+  {t:"Cobalt Supply Risk", c:["fin","app"], d:"A supply-risk model for cobalt, paired with a React dashboard to explore it.", tags:["Python","Jupyter","React"],
+    f:[["p","Cobalt Supply Risk model.ipynb","Notebook"],["f","Cobalt_Dashboard.jsx","Dashboard (JSX)"]]},
+  {t:"Lavender Roses Flower Shop: Full Financial Statements", c:["fin"], d:"Complete financial statements for a flower shop, with every calculation broken down step by step.", tags:["Python","Jupyter"],
+    f:[["p","Lavender Roses Flower Shop Full Financial Statements with Calculation Breakdown.ipynb","Notebook"]]},
+  {t:"Neural Networks & Elle Woods", c:["ml"], d:"A neural-network walkthrough with a Legally Blonde twist.", tags:["Python","Jupyter"],
+    f:[["p","Neural Networks & Elle Woods.ipynb","Notebook"]]},
+  {t:"Portfolio Optionality Model", c:["quant","fin"], d:"A quant model that treats portfolio flexibility as an option with measurable value.", tags:["Python","Jupyter"],
+    f:[["p","Portfolio Optionality Model.ipynb","Notebook"]]},
+  {t:"Pressure Index", c:["quant"], d:"An index that turns market and economic stress into a single pressure reading.", tags:["Python","Jupyter"],
+    f:[["p","Pressure Index.ipynb","Notebook"]]},
+  {t:"Team Behavior Risk Model", c:["ml"], d:"Machine learning that decodes behavior patterns to flag team-level risk.", tags:["Python","ML"],
+    f:[["p","Team Behavior Risk Model.ipynb","Notebook"]]},
+  {t:"10-Q Financial Analyzer", c:["fin"], d:"Tools for reading quarterly 10-Q filings and getting them into Excel, in Python, with an R-code readme.", tags:["Python","Excel","R"],
+    f:[["f","10-Q_Financial_Analyzer_PY.py","Analyzer (py)"],["f","10-Q_ Excel_PY.py","Excel export (py)"],["f","10-Q_python code.ipynb","Notebook"],["f","10-Q_RCode_ReadMe.md","R readme"]]},
+  {t:"Agent Observability: Trace Quality, SLO & ROI", c:["agents"], d:"Notebook and interactive tutorial on measuring agent trace quality, service-level objectives and return on investment.", tags:["Python","HTML","Observability"],
+    f:[["f","Agent Observabiltity_ipynbcode..ipynb","Notebook"],["f","Agent Trace Quality, SLO and ROI Model - Observability Tutorial.html","Tutorial (HTML)"]]},
+  {t:"Bond Analytics", c:["fin","app"], d:"Bond analytics built three ways: an Excel model, a Python notebook and an HTML tool.", tags:["Python","Excel","HTML"],
+    f:[["f","Bond_Analytics_PYTHON.ipynb","Notebook"],["f","Bond_Analytics_Excel.xlsx","Excel"],["f","Bond_Analytics_HTML.html","HTML"]]},
+  {t:"Credit Rating", c:["fin"], d:"Credit-rating analysis with the dataset, an Excel version and a Python notebook.", tags:["Python","Excel","CSV"],
+    f:[["f","Credit_Rating_python.ipynb","Notebook"],["f","Credit_Rating_Excel.xlsx","Excel"],["f","Credit_Rating_CSV.csv","CSV"]]},
+  {t:"Distance Widget", c:["app"], d:"One widget idea prototyped across four stacks: HTML, Python, a notebook and native Swift.", tags:["Swift","Python","HTML"],
+    f:[["f","DistanceWidget_Swift.swift","Swift"],["f","DistanceWidget_HTML.html","HTML"],["f","DistanceWidget_Py.py","Python"],["f","DistanceWidget_python.ipynb","Notebook"]]},
+  {t:"IoT Recorder & ML Classifier", c:["iot","ml"], d:"Sensor recording and upload code for a UIFlow device, plus the analysis notebook and classifier write-up.", tags:["UIFlow","Python","ML"],
+    f:[["f","IOT SD Uiflow recorder.py","Recorder"],["f","IOT SD UIflow Upload.py","Upload"],["f","IOT SD analysis.ipynb","Analysis"],["f","IOT_ML_Classifer_Code.pdf","Classifier (PDF)"]]},
+  {t:"Your Closet", c:["app"], d:"A closet-management app idea with an HTML mockup and a Python backend.", tags:["Python","HTML"],
+    f:[["f","Your_Closet_HTML_MOCKUP.html","Mockup"],["f","Your_Closet_PY.py","Python"]]},
+  {t:"Airport Arrival Optimizer", c:["app","quant"], d:"An optimizer for when to arrive at the airport, with a dashboard on top.", tags:["Python","HTML"],
+    f:[["f","airport_arrival_optimizer_dashboard.html","Dashboard"],["f","airport_optimizer.ipynb","Notebook"]]},
+  {t:"Mixed Signals Quant Model", c:["quant"], d:"A quant model built to make sense of conflicting market signals.", tags:["Python","Jupyter"],
+    f:[["f","mixedsignals_quantmodel.ipynb","Notebook"]]},
+  {t:"Stock-Flow Accounting Identity", c:["fin","app"], d:"The stock-flow accounting identity as a notebook, an interactive dashboard and interview practice.", tags:["Python","HTML"],
+    f:[["f","stock-flow accounting identity_Dashboard.ipynb","Notebook"],["f","stock-flow accounting identity_dashboard.html","Dashboard"],["f","stock-flow accounting identity_interview-practice.html","Interview practice"]]}
+];
+
+/* ===== render ===== */
+const grid = document.getElementById('grid');
+const filters = document.getElementById('filters');
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+PROJECTS.forEach((p, i) => {
+  const el = document.createElement('article');
+  el.className = 'card rv';
+  el.dataset.cats = p.c.join(' ');
+  el.innerHTML =
+    `<span class="idx">${String(i + 1).padStart(2, '0')}</span>` +
+    `<h3>${esc(p.t)}</h3>` +
+    `<p>${esc(p.d)}</p>` +
+    `<div class="tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` +
+    `<div class="files">${p.f.map(([r, file, label]) =>
+        `<a href="${REPO[r] + encodeURIComponent(file)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`).join('')}</div>`;
+  grid.appendChild(el);
+});
+
+Object.entries(CATS).forEach(([key, label]) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'chip'; b.textContent = label; b.dataset.cat = key;
+  b.setAttribute('aria-pressed', key === 'all' ? 'true' : 'false');
+  filters.appendChild(b);
+});
+filters.addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  filters.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  const cat = b.dataset.cat;
+  grid.querySelectorAll('.card').forEach(c => {
+    const show = cat === 'all' || c.dataset.cats.split(' ').includes(cat);
+    c.hidden = !show;
+    if (show) c.classList.add('in');
+  });
+});
+
+/* ===== dashboards ===== */
+const LIVE = "https://raw.githack.com/Yaricoded/Foward_03-05-2026_Blog_Code/main/";
+const DASH = [
+  {kind:"Interactive", t:"Airport Arrival Optimizer", file:"airport_arrival_optimizer_dashboard.html",
+    d:"Pick a flight time, airline and day, toggle bags, PreCheck, CLEAR, international and peak season, and get a recommended arrival time with a full buffer breakdown.",
+    feats:["Arrival verdict","Airline on-time ranking","24-hour TSA wait heatmap"],
+    note:"Uses hard-coded 2024 airline and TSA figures."},
+  {kind:"Report", t:"Z.1 Net Worth Dashboard", file:"stock-flow accounting identity_dashboard.html",
+    d:"Household and nonprofit net worth through the stock-change identity, with headline KPIs and a time-series chart, built from the Federal Reserve Z.1 release.",
+    feats:["Net worth level","Quarterly change & growth","Backtested forecast baseline"],
+    note:"Static page. Only two quarters are sourced from the release; the rest of the series is marked illustrative."},
+  {kind:"Report", t:"Agent Trace Quality, SLO & ROI", file:"Agent Trace Quality, SLO and ROI Model - Observability Tutorial.html",
+    d:"An observability tutorial that scores a synthetic agent-trace dataset for completeness, latency and errors, then turns fewer incidents into dollar savings.",
+    feats:["SLO vs. observed success","90-day control chart","18-month ROI / NPV"],
+    note:"Static page built on synthetic, seeded data."},
+  {kind:"React app", t:"Cobalt Risk Engine", file:"Cobalt_Dashboard.jsx", noPreview:true,
+    d:"A dark-themed supply-chain risk dashboard for cobalt: country risk scores weighted by political, ethical and regulatory factors, with a risk index and portfolio exposure.",
+    feats:["Risk vs. production scatter","Ranked country risk","Price trend & radar profile","Sortable country matrix"],
+    note:"React + Recharts component. It needs a React project to run, and live prices need a Metals-API key."},
+  {kind:"Practice", t:"Yariverse Interview Cards", file:"stock-flow accounting identity_interview-practice.html",
+    d:"Six finance and economics interview questions as flip cards: reveal a model answer and a follow-up, then mark each question practiced.",
+    feats:["Net worth & spending","Return reconciliation","Data revisions","Forecast validation"],
+    note:"Some icon and tooltip scripts load from unpkg.com, so icons may be missing if that is blocked."},
+  {kind:"Mockup", t:"Your Closet", file:"Your_Closet_HTML_MOCKUP.html",
+    d:"A wardrobe manager mockup: add pieces from photos, browse your closet, build style profiles, get outfit suggestions and track items borrowed or lent to friends.",
+    feats:["Closet grid","Style profiles","Outfit suggestions","Borrowed & lent tracker"],
+    note:"The interface is a front end for a backend API, so in this preview the screens show but saving and uploading won't work."},
+  {kind:"Notebook export", t:"Bond Analytics", file:"Bond_Analytics_HTML.html",
+    d:"The bond-analytics notebook exported to HTML, so it can be read without Jupyter. A matching Python notebook and Excel model sit beside it in the repo.",
+    feats:["Bond analytics","Exported from Jupyter"],
+    note:"A large Jupyter export that loads require.js from cdnjs, so it may take a moment to render."},
+  {kind:"Notebook export", t:"Distance Widget", file:"DistanceWidget_HTML.html",
+    d:"The Distance Widget notebook exported to HTML. The same idea is also built in Python and as a native Swift widget in the repo.",
+    feats:["Widget prototype","Exported from Jupyter"],
+    note:"A large Jupyter export that loads require.js from cdnjs, so it may take a moment to render."}
+];
+const dashes = document.getElementById('dashes');
+DASH.forEach(x => {
+  const src = x.noPreview ? REPO.f + encodeURIComponent(x.file) : LIVE + encodeURIComponent(x.file);
+  const el = document.createElement('article');
+  el.className = 'card dash rv';
+  el.innerHTML =
+    `<span class="kind">${esc(x.kind)}</span><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>` +
+    `<div class="stage"><div class="ph"><ul>${x.feats.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` +
+    (x.noPreview ? `<small>No live preview: this one is source code.</small>`
+                 : `<a class="btn" href="${src}" target="_blank" rel="noopener">Open live dashboard ↗</a>`) +
+    `</div></div>` +
+    `<div class="files"><a href="${src}" target="_blank" rel="noopener">${x.noPreview ? 'View source' : 'Open full size'} ↗</a>` +
+    (x.noPreview ? '' : `<a href="${REPO.f + encodeURIComponent(x.file)}" target="_blank" rel="noopener">Source ↗</a>`) + `</div>` +
+    `<p class="note">${esc(x.note)}</p>`;
+  const btn = el.querySelector('button');
+  if (btn) btn.addEventListener('click', () => {
+    const f = document.createElement('iframe');
+    f.src = src; f.title = x.t + ' (live preview)'; f.loading = 'lazy';
+    f.setAttribute('sandbox', 'allow-scripts');
+    el.querySelector('.stage').replaceChildren(f);
+  });
+  dashes.appendChild(el);
+});
+
+/* spotlight that follows the pointer inside each card */
+document.addEventListener('pointermove', e => {
+  const c = e.target.closest && e.target.closest('.card'); if (!c) return;
+  const r = c.getBoundingClientRect();
+  c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+  c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+});
+
+/* scroll reveal */
+const io = 'IntersectionObserver' in window
+  ? new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), {threshold:.12})
+  : null;
+document.querySelectorAll('.rv').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+
+/* ===== shared pointer ===== */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mouse = {x: -9999, y: -9999, has: false};
+addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.has = true; }, {passive:true});
+addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; mouse.has = false; });
+
+/* ===== PARTICLES theme: constellation network ===== */
+const net = document.getElementById('net'), ctx = net.getContext('2d');
+let W = innerWidth, H = innerHeight, pts = [], netRAF = 0;
+
+function sizeNet() {
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  net.width = W * dpr; net.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const n = Math.round(Math.min(120, Math.max(36, W * H / 15000)));
+  pts = Array.from({length:n}, () => ({
+    x: Math.random() * W, y: Math.random() * H,
+    vx: (Math.random() - .5) * .38, vy: (Math.random() - .5) * .38,
+    r: Math.random() * 1.6 + .7
+  }));
+}
+function drawNet(move) {
+  ctx.clearRect(0, 0, W, H);
+  const L = 135, M = 175;
+  for (const p of pts) {
+    if (move) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+      const dx = mouse.x - p.x, dy = mouse.y - p.y, d = Math.hypot(dx, dy);
+      if (d < M && d > 1) { p.x -= dx / d * .7; p.y -= dy / d * .7; }  // gently repelled by the cursor
+    }
+  }
+  ctx.lineWidth = 1;
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i];
+    for (let j = i + 1; j < pts.length; j++) {
+      const b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < L) {
+        ctx.strokeStyle = `rgba(56,242,208,${(1 - d / L) * .45})`;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }
+    }
+    if (mouse.has) {
+      const d = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+      if (d < M) {
+        ctx.strokeStyle = `rgba(124,92,255,${(1 - d / M) * .6})`;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+      }
+    }
+  }
+  ctx.fillStyle = 'rgba(233,251,255,.85)';
+  for (const p of pts) { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill(); }
+}
+function loopNet() { drawNet(true); netRAF = requestAnimationFrame(loopNet); }
+
+/* ===== LIQUID theme: gooey metaballs ===== */
+const blobs = [...document.querySelectorAll('.liquid b')].map((el, i) => ({
+  el, ph: i * 1.9, sx: .00018 + i * .00004, sy: .00014 + i * .00005, w: 0, h: 0
+}));
+let liqRAF = 0, cur = {x: innerWidth / 2, y: innerHeight / 2};
+
+function loopLiquid(t) {
+  const w = innerWidth, h = innerHeight;
+  blobs.forEach((b, i) => {
+    if (!b.w) { b.w = b.el.offsetWidth; b.h = b.el.offsetHeight; }
+    let x, y;
+    if (i === blobs.length - 1) {                      // last blob chases the cursor
+      const tx = mouse.has ? mouse.x : w / 2 + Math.sin(t * .0007) * w * .2;
+      const ty = mouse.has ? mouse.y : h / 2 + Math.cos(t * .0009) * h * .2;
+      cur.x += (tx - cur.x) * .08; cur.y += (ty - cur.y) * .08;
+      x = cur.x; y = cur.y;
+    } else {
+      x = w * (.5 + .42 * Math.sin(t * b.sx * 3 + b.ph));
+      y = h * (.5 + .42 * Math.cos(t * b.sy * 3 + b.ph * 1.7));
+    }
+    b.el.style.transform = `translate3d(${x - b.w / 2}px,${y - b.h / 2}px,0)`;
+  });
+  liqRAF = requestAnimationFrame(loopLiquid);
+}
+function placeLiquidStatic() {
+  const w = innerWidth, h = innerHeight;
+  blobs.forEach((b, i) => {
+    b.w = b.el.offsetWidth; b.h = b.el.offsetHeight;
+    const x = w * (.5 + .38 * Math.sin(b.ph)), y = h * (.5 + .38 * Math.cos(b.ph * 1.7));
+    b.el.style.transform = `translate3d(${x - b.w / 2}px,${y - b.h / 2}px,0)`;
+  });
+}
+
+/* ===== theme switching ===== */
+const root = document.documentElement;
+const THEMES = ['glass', 'particles', 'liquid'];
+
+function setTheme(t) {
+  if (!THEMES.includes(t)) t = 'glass';
+  root.dataset.look = t;
+  document.querySelectorAll('[data-theme-btn]').forEach(b =>
+    b.setAttribute('aria-pressed', b.dataset.themeBtn === t ? 'true' : 'false'));
+  cancelAnimationFrame(netRAF); cancelAnimationFrame(liqRAF);
+  if (t === 'particles') { sizeNet(); reduce ? drawNet(false) : loopNet(); }
+  if (t === 'liquid') { blobs.forEach(b => b.w = 0); reduce ? placeLiquidStatic() : (liqRAF = requestAnimationFrame(loopLiquid)); }
+}
+document.querySelector('.dock').addEventListener('click', e => {
+  const b = e.target.closest('[data-theme-btn]'); if (b) setTheme(b.dataset.themeBtn);
+});
+addEventListener('resize', () => {
+  if (root.dataset.look === 'particles') { sizeNet(); if (reduce) drawNet(false); }
+  if (root.dataset.look === 'liquid') blobs.forEach(b => b.w = 0);
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { cancelAnimationFrame(netRAF); cancelAnimationFrame(liqRAF); }
+  else setTheme(root.dataset.look);
+});
+
+setTheme(location.hash.slice(1));
+</script>
+
+</body></html>
